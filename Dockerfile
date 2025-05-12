@@ -4,7 +4,7 @@ FROM debian:bullseye-slim
 RUN apt-get update && \
     apt-get install -y \
     wget \
-    g++ \   <-- this is the fix
+    g++ \  
     git \
     cmake \
     pkg-config \
