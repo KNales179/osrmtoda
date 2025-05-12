@@ -1,44 +1,39 @@
-FROM debian:bullseye-slim
+FROM debian:bullseye
 
-# Install OSRM + dependencies
-RUN apt-get update && \
-    apt-get install -y \
-    wget \
-    g++ \  
-    git \
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
     cmake \
-    pkg-config \
-    libprotoc-dev \
-    libprotobuf-dev \
-    protobuf-compiler \
-    libosmpbf-dev \
+    git \
+    wget \
+    libbz2-dev \
     libstxxl-dev \
-    libstxxl1v5 \
     libxml2-dev \
     libzip-dev \
     libboost-all-dev \
-    lua5.3 \
-    liblua5.3-dev \
+    lua5.2 \
+    liblua5.2-dev \
     libtbb-dev \
-    && apt-get clean
+    libprotobuf-dev \
+    protobuf-compiler
 
 # Clone and build OSRM
-WORKDIR /app
 RUN git clone https://github.com/Project-OSRM/osrm-backend.git && \
-    cd osrm-backend && mkdir -p build && cd build && \
+    cd osrm-backend && \
+    mkdir -p build && \
+    cd build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release && \
     cmake --build .
 
-# Prepare data directory
+# Set working directory
 WORKDIR /data
-RUN wget "https://drive.google.com/uc?export=download&id=1k3yHd8dY00SplyZ_H0B-GDdKiAcOID30" -O lucena.osm.pbf
 
-# Preprocess map data
-RUN /app/osrm-backend/build/osrm-extract -p /app/osrm-backend/profiles/car.lua lucena.osm.pbf && \
-    /app/osrm-backend/build/osrm-partition lucena.osrm && \
-    /app/osrm-backend/build/osrm-customize lucena.osrm
+# Copy the .osm.pbf file into the container
+# If you have the file locally, you can add it during the build
+# COPY lucena.osm.pbf /data/
 
+# Expose the OSRM port
 EXPOSE 5000
 
-# Run the OSRM server
-CMD ["/app/osrm-backend/build/osrm-routed", "--algorithm", "mld", "lucena.osrm"]
+# Default command
+CMD ["/osrm-backend/build/osrm-routed", "--algorithm", "mld", "lucena.osrm"]
