@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     libboost-all-dev \
+    libtbb-dev \
     lua5.2 \
     liblua5.2-dev \
     libtbb-dev \
