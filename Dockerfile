@@ -26,7 +26,7 @@ WORKDIR /deps
 RUN git clone https://github.com/oneapi-src/oneTBB.git && \
     cd oneTBB && \
     mkdir build && cd build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF && \
     make -j$(nproc) && make install
 
 # Build OSRM
