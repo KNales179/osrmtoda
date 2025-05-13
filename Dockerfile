@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
     protobuf-compiler \
     pkg-config \
     zlib1g-dev \
-    ca-certificates
+    ca-certificates && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Intel TBB (from source, because apt version is broken/missing headers)
 WORKDIR /deps
@@ -46,10 +47,11 @@ RUN wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osr
     wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.partition && \
     wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.properties && \
     wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.edges && \
-    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.nodes && \
-    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.core
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.ebg_nodes && \
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.mldgr && \
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.geometry
 
 EXPOSE 5000
 
 # Run the OSRM server
-CMD ["/app/osrm-backend/build/osrm-routed", "--algorithm", "mld", "lucena.osrm"]
+CMD ["/app/osrm-backend/build/osrm-routed", "--algorithm", "mld", "/data/lucena.osrm"]
