@@ -29,10 +29,11 @@ RUN git clone https://github.com/oneapi-src/oneTBB.git && \
     cmake .. -DCMAKE_BUILD_TYPE=Release -DTBB_TEST=OFF && \
     make -j$(nproc) && make install
 
-# Build OSRM
+# Build OSRM (checkout stable release)
 WORKDIR /app
 RUN git clone https://github.com/Project-OSRM/osrm-backend.git && \
     cd osrm-backend && \
+    git checkout v5.27.1 && \
     mkdir -p build && cd build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release && \
     cmake --build .
