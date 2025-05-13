@@ -40,7 +40,7 @@ RUN git clone https://github.com/Project-OSRM/osrm-backend.git && \
 
 # Prepare data directory
 WORKDIR /data
-RUN wget "https://drive.google.com/uc?export=download&id=1k3yHd8dY00SplyZ_H0B-GDdKiAcOID30" -O lucena.osm.pbf
+RUN wget "https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osm.pbf"
 
 # Preprocess map data
 RUN /app/osrm-backend/build/osrm-extract -p /app/osrm-backend/profiles/car.lua lucena.osm.pbf && \
