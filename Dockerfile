@@ -41,12 +41,13 @@ RUN git clone https://github.com/Project-OSRM/osrm-backend.git && \
 
 # Prepare data directory
 WORKDIR /data
-RUN wget "https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osm.pbf"
-
-# Preprocess map data
-RUN /app/osrm-backend/build/osrm-extract -p /app/osrm-backend/profiles/car.lua lucena.osm.pbf && \
-    /app/osrm-backend/build/osrm-partition lucena.osrm && \
-    /app/osrm-backend/build/osrm-customize lucena.osrm
+# Download preprocessed .osrm files instead of .osm.pbf
+RUN wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm && \
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.partition && \
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.properties && \
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.edges && \
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.nodes && \
+    wget https://github.com/KNales179/osrmtoda/releases/download/v1.0/lucena.osrm.core
 
 EXPOSE 5000
 
