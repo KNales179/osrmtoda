@@ -23,12 +23,11 @@ RUN apt-get update && apt-get install -y \
 
 # Install Intel TBB (from source, because apt version is broken/missing headers)
 WORKDIR /deps
-RUN git clone --branch 2020.3 https://github.com/oneapi-src/oneTBB.git && \
+RUN git clone https://github.com/oneapi-src/oneTBB.git && \
     cd oneTBB && \
     mkdir build && cd build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release && \
     make -j$(nproc) && make install
-
 
 # Build OSRM
 WORKDIR /app
