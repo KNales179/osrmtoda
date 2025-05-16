@@ -3,9 +3,9 @@ FROM debian:bullseye
 # Install only runtime dependencies
 RUN apt-get update && apt-get install -y \
     wget \
-    libboost-program-options1.83.0 \
-    libboost-filesystem1.83.0 \
-    libboost-system1.83.0 \
+    libboost-program-options-dev \
+    libboost-filesystem-dev \
+    libboost-system-dev \
     liblua5.2-0 \
     libstxxl1v5 \
     libxml2 \
@@ -32,4 +32,3 @@ EXPOSE 5000
 
 # Start OSRM with MLD algorithm
 CMD ["/app/osrm-routed", "--algorithm", "mld", "/data/lucena.osrm"]
-
